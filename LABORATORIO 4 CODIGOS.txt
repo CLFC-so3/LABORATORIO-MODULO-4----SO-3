@@ -1,0 +1,176 @@
+Video 1
+
+Sudo dnf install httpd 
+Sudo systemctl enable httpd
+Sudo systemctl start httpd
+Sudo systemctl status httpd
+Sudo firewall-cmd –permanent  – -add-service=http
+Sudo firewall-cmd –permanent  – -add-service=https
+Sudo firewall-cmd –reload
+
+Sudo mkdir -p /var/www/holamundo/html
+
+Sudo nano /var/www/holamundo/html/index.html
+<!DOCTYPE html>
+<html>
+<body>
+<head> HOLA MUNDO </head>
+</body>
+</html>
+Ctrl + O
+Enter
+Ctrl + X
+
+
+
+
+
+
+
+
+Sudo nano /etc/httpd/conf.d/holamundo.conf
+<VirtualHost *:80>
+          ServerName localhost
+          DocumentRoot /var/www/holamundo/html
+</VirtualHost>
+Ctrl + O
+Enter
+Ctrl + X
+
+sudo nano /etc/httpd/conf/httpd.conf
+Listen 80
+sudo systemctl restart httpd
+
+
+sudo mkdir -p /var/www/personal/html
+sudo nano /var/www/personal/html/index.html
+<!DOCTYPE html>
+<html>
+<body>
+<head> Info Personal  </head>
+
+<h3> Carlos Luis Feliz Catano </h3>
+<h3> 20250892</h3>
+</body>
+</html>
+Ctrl + O
+Enter
+Ctrl + X
+
+
+
+sudo nano /etc/httpd/conf/httpd.conf
+Listen 8080
+Sudo nano /etc/httpd/conf.d/personal.conf
+<VirtualHost *:8080>
+          ServerName localhost
+          DocumentRoot /var/www/personal/html
+</VirtualHost>
+Ctrl + O
+Enter
+Ctrl + X
+sudo systemctl restart httpd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Video 2
+Sudo dnf install postfix* -y && sudo dnf install mail* -y
+Cd /etc/postfix
+
+Sudo vi main.cf
+AGREGAR ABAJO
+Myhostname = carlos.ro.com
+Mydomain = carlos.rod.com
+
+DESCOMENTAR
+Myorigin = $mydomain
+
+DESCOMENTAR Y EDITAR
+Mynetworks = tuIP/tuMASCARA , tuLOOPBACK/tuMASCARA
+
+AGREGAR ABAJO
+Relayhost = [smtp.gmail.com]:587
+
+COMENTAR
+#smtp_tls_security_level = may
+
+
+
+
+
+
+
+
+
+AGREGAR ABAJO AL FONDO
+
+Smtp_use_tls = yes
+Smtp_sasl_auth_enable = yes
+Smtp_tls_security_level = encrypt
+
+Smtp_sasl_security_options = 
+Smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+:wq
+
+Vi sasl_passwd
+[smtp.gmail.com]:587 felizc4rl0s@gmail.com:contraseña de aplicación
+:wq
+
+Postmap sasl_passwd
+Chmod 777 sasl_passwd
+Systemctl restart postfix
+
+Vi correo.txt
+Carlos Luis Feliz Catano
+20250892
+Sistemas Operativos 3
+Adrian Alcantara 
+
+Laboratorio 4.2 
+:wq
+
+Mail -s “prueba de fe” elsuperhacker0@gmail.com < correo.txt
+
+
+
+
+Video 3 
+Sudo dnf install cups cups-pdf ghostscript
+Sudo systemctl enable cups
+Sudo systemctl start cups
+Sudo systemctl status cups
+
+Sudo firewall-cmd --permanent --add-service=ipp
+Sudo firewall-cmd --permanent --add-service=ipp-client
+Sudo firewall-cmd --permanent --add-service=mdns
+Sudo firewall-cmd –reload
+
+Sudo nano /etc/cups/cupsd.conf
+Cambiar listen por port 631
+Y añadir allow all a server, admin page y configuration files y log files
+
+Sudo systemctl restart cups
+http://tu_ip:631 
+
+
+
+
+
+ 
